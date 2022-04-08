@@ -6,6 +6,18 @@ let messageContainer = document.querySelector('#message');
 let messageText = document.querySelector('#message p');
 let secondPlayer;
 
+
+let b1 = document.getElementById("block-1");
+let b2 = document.getElementById("block-2");
+let b3 = document.getElementById("block-3");
+let b4 = document.getElementById("block-4");
+let b5 = document.getElementById("block-5");
+let b6 = document.getElementById("block-6");
+let b7 = document.getElementById("block-7");
+let b8 = document.getElementById("block-8");
+let b9 = document.getElementById("block-9");
+
+
 //play counter
 //these variables will count the amount of times each player played
 let player1 = 0, player2 = 0;
@@ -18,7 +30,6 @@ boxes.forEach((box) => {
 
 
 function checkElementAndAppend() {
-    
     let element = checkElement(player1, player2);//this line will check if it's a X or O turn
     if(this.childNodes.length == 0){
         //this condition will check if there's a X or O in the box,
@@ -30,7 +41,6 @@ function checkElementAndAppend() {
             
             if(secondPlayer == 'ai-player') {
 
-                
                     computerPlay()
                     player2++;
             }
@@ -82,20 +92,9 @@ function checkElement(player1, player2){
 
 //this function checks who won
 function checkWinCondition() {
-
-    let b1 = document.getElementById("block-1");
-    let b2 = document.getElementById("block-2");
-    let b3 = document.getElementById("block-3");
-    let b4 = document.getElementById("block-4");
-    let b5 = document.getElementById("block-5");
-    let b6 = document.getElementById("block-6");
-    let b7 = document.getElementById("block-7");
-    let b8 = document.getElementById("block-8");
-    let b9 = document.getElementById("block-9");
+    
     let j = 0;
     
-    
-
     //Horizontal: first line
     if(b1.childNodes.length > 0 && b2.childNodes.length > 0 && b3.childNodes.length > 0) {
 
@@ -311,32 +310,340 @@ function declareWinner(winner) {
 
 function computerPlay() {
 
-    let cloneO = o.cloneNode(true);
-    let counter = 0;
-    let filled = 0;
+    
+    
+    if(!threatChecker()){
 
-    for(let i = 0; i < boxes.length; i++) {
-        let randomNumber = Math.floor(Math.random()*5);
-
-        if(boxes[i].childNodes[0] == undefined ) {
-
-            if(randomNumber <= 1) {
-                boxes[i].appendChild(cloneO);
-                counter++;
-                break;
-            }
-
-        } 
+        let cloneO = o.cloneNode(true);
+        let counter = 0;
+        let filled = 0;
+    
+        for(let i = 0; i < boxes.length; i++) {
+            let randomNumber = Math.floor(Math.random()*5);
+    
+            if(boxes[i].childNodes[0] == undefined ) {
+    
+                if(randomNumber <= 1) {
+                    boxes[i].appendChild(cloneO);
+                    counter++;
+                    break;
+                }
+    
+            }  else {
+                filled++;
         
-        else {
-            filled++;
+            }
     
         }
-
+    
+        if(counter == 0 && filled < 9){
+            computerPlay()
+        }
+        
     }
 
-    if(counter == 0 && filled < 9){
-        computerPlay()
-    }
+
 
 }
+
+
+/*
+A threat is when you have two X's lined up horizontaly, vertically or diagonally.
+
+Ex:  X | X | empty
+
+A threat is also when you have two X's with an empty block between them.
+Ex:  X | empty | X
+*/
+
+
+function threatChecker() {
+    let cloneO = o.cloneNode(true);
+    // FIRST LINE  //
+
+    // X X O
+    if(b1.childNodes.length > 0 && b2.childNodes.length > 0 && b3.childNodes[0] == undefined){
+            if(b1.childNodes[0].className == 'x' && b2.childNodes[0].className == 'x'  ) {
+                b3.appendChild(cloneO)
+                return true  
+            }
+        } 
+
+
+    // O X X
+    if(b2.childNodes.length > 0 && b3.childNodes.length > 0 && b1.childNodes[0] == undefined){
+        if(b2.childNodes[0].className == 'x' && b3.childNodes[0].className == 'x'  ) {
+            b1.appendChild(cloneO)
+            return true  
+        }
+    }         
+
+
+    // X O X
+    if(b1.childNodes.length > 0 && b3.childNodes.length > 0 && b2.childNodes[0] == undefined){
+        if(b1.childNodes[0].className == 'x' && b3.childNodes[0].className == 'x'  ) {
+            b2.appendChild(cloneO)
+            return true  
+        }
+    }
+
+
+
+    // SECOND LINE //
+
+    // X X O
+    if(b4.childNodes.length > 0 && b5.childNodes.length > 0 && b6.childNodes[0] == undefined){
+            if(b4.childNodes[0].className == 'x' && b5.childNodes[0].className == 'x'  ) {
+                b6.appendChild(cloneO)
+                return true  
+            }
+        } 
+
+
+    // O X X
+    if(b5.childNodes.length > 0 && b6.childNodes.length > 0 && b4.childNodes[0] == undefined){
+        if(b5.childNodes[0].className == 'x' && b6.childNodes[0].className == 'x'  ) {
+            b1.appendChild(cloneO)
+            return true  
+        }
+    }         
+
+
+    // X O X
+    if(b4.childNodes.length > 0 && b6.childNodes.length > 0 && b5.childNodes[0] == undefined){
+        if(b4.childNodes[0].className == 'x' && b6.childNodes[0].className == 'x'  ) {
+            b5.appendChild(cloneO)
+            return true  
+        }
+    }
+
+
+
+
+
+    // THIRD LINE //
+
+    // X X O
+    if(b7.childNodes.length > 0 && b8.childNodes.length > 0 && b9.childNodes[0] == undefined){
+        if(b7.childNodes[0].className == 'x' && b8.childNodes[0].className == 'x'  ) {
+            b9.appendChild(cloneO)
+            return true  
+        }
+    } 
+
+
+    // O X X
+    if(b8.childNodes.length > 0 && b9.childNodes.length > 0 && b7.childNodes[0] == undefined){
+        if(b8.childNodes[0].className == 'x' && b9.childNodes[0].className == 'x'  ) {
+            b7.appendChild(cloneO)
+            return true  
+        }
+    }         
+
+
+    // X O X
+    if(b7.childNodes.length > 0 && b9.childNodes.length > 0 && b8.childNodes[0] == undefined){
+        if(b7.childNodes[0].className == 'x' && b9.childNodes[0].className == 'x'  ) {
+            b8.appendChild(cloneO)
+            return true  
+        }
+    }    
+
+
+
+    
+    // FIRST COLUMN //
+
+    /* X
+       X
+       O  */
+
+    if(b1.childNodes.length > 0 && b4.childNodes.length > 0 && b7.childNodes[0] == undefined){
+        if(b1.childNodes[0].className == 'x' && b4.childNodes[0].className == 'x'  ) {
+            b7.appendChild(cloneO)
+            return true  
+        }
+    } 
+
+
+    /* O
+       X
+       x  */
+    if(b4.childNodes.length > 0 && b7.childNodes.length > 0 && b1.childNodes[0] == undefined){
+        if(b4.childNodes[0].className == 'x' && b7.childNodes[0].className == 'x'  ) {
+            b1.appendChild(cloneO)
+            return true  
+        }
+    }         
+
+
+    /* X
+       O
+       X  */
+    if(b1.childNodes.length > 0 && b7.childNodes.length > 0 && b4.childNodes[0] == undefined){
+        if(b1.childNodes[0].className == 'x' && b7.childNodes[0].className == 'x'  ) {
+            b4.appendChild(cloneO)
+            return true  
+        }
+    }    
+
+
+
+
+    // SECOND COLUMN //
+
+    /* X
+       X
+       O  */
+
+    if(b2.childNodes.length > 0 && b5.childNodes.length > 0 && b8.childNodes[0] == undefined){
+        if(b2.childNodes[0].className == 'x' && b5.childNodes[0].className == 'x'  ) {
+            b8.appendChild(cloneO)
+            return true  
+        }
+    } 
+
+
+    /* O
+       X
+       x  */
+    if(b5.childNodes.length > 0 && b8.childNodes.length > 0 && b2.childNodes[0] == undefined){
+        if(b5.childNodes[0].className == 'x' && b8.childNodes[0].className == 'x'  ) {
+            b2.appendChild(cloneO)
+            return true  
+        }
+    }         
+
+
+    /* X
+       O
+       X  */
+    if(b2.childNodes.length > 0 && b8.childNodes.length > 0 && b5.childNodes[0] == undefined){
+        if(b2.childNodes[0].className == 'x' && b8.childNodes[0].className == 'x') {
+            b5.appendChild(cloneO)
+            return true  
+        }
+    }    
+
+
+
+
+
+
+    // THIRD COLUMN //
+
+    /* X
+       X
+       O  */
+
+    if(b3.childNodes.length > 0 && b6.childNodes.length > 0 && b9.childNodes[0] == undefined){
+        if(b3.childNodes[0].className == 'x' && b6.childNodes[0].className == 'x'  ) {
+            b9.appendChild(cloneO)
+            return true  
+        }
+    } 
+
+
+    /* O
+       X
+       x  */
+    if(b6.childNodes.length > 0 && b9.childNodes.length > 0 && b3.childNodes[0] == undefined){
+        if(b6.childNodes[0].className == 'x' && b9.childNodes[0].className == 'x'  ) {
+            b3.appendChild(cloneO)
+            return true  
+        }
+    }         
+
+
+
+    /* X
+       O
+       X  */
+    if(b3.childNodes.length > 0 && b9.childNodes.length > 0 && b6.childNodes[0] == undefined){
+        if(b3.childNodes[0].className == 'x' && b9.childNodes[0].className == 'x'  ) {
+            b6.appendChild(cloneO)
+            return true  
+        }
+    }    
+
+
+
+    //PRINCIPAL DIAGONAL
+
+    /* X    
+         X
+           O */
+    if(b1.childNodes.length > 0 && b5.childNodes.length > 0 && b9.childNodes[0] == undefined){
+        if(b1.childNodes[0].className == 'x' && b5.childNodes[0].className == 'x'  ) {
+            b9.appendChild(cloneO)
+            return true  
+        }
+    }    
+    
+    /* O    
+         X
+           X */
+    if(b5.childNodes.length > 0 && b9.childNodes.length > 0 && b1.childNodes[0] == undefined){
+        if(b3.childNodes[0].className == 'x' && b9.childNodes[0].className == 'x'  ) {
+            b1.appendChild(cloneO)
+            return true  
+        }
+    } 
+
+    /* X    
+         O
+           X */
+    if(b1.childNodes.length > 0 && b9.childNodes.length > 0 && b5.childNodes[0] == undefined){
+        if(b1.childNodes[0].className == 'x' && b9.childNodes[0].className == 'x'  ) {
+            b5.appendChild(cloneO)
+            return true  
+        }
+    } 
+
+
+
+    //SECONDARY DIAGONAL
+    /*      O
+          X 
+        X       */
+
+    if(b7.childNodes.length > 0 && b5.childNodes.length > 0 && b3.childNodes[0] == undefined){
+        if(b7.childNodes[0].className == 'x' && b5.childNodes[0].className == 'x'  ) {
+            b3.appendChild(cloneO)
+            return true  
+        }
+    } 
+
+
+    /*      X
+          X 
+        O       */
+
+    if(b3.childNodes.length > 0 && b5.childNodes.length > 0 && b7.childNodes[0] == undefined){
+        if(b3.childNodes[0].className == 'x' && b5.childNodes[0].className == 'x'  ) {
+            b7.appendChild(cloneO)
+            return true  
+        }
+    }     
+
+
+    /*      X
+          O 
+        X       */
+
+    if(b3.childNodes.length > 0 && b7.childNodes.length > 0 && b5.childNodes[0] == undefined){
+        if(b3.childNodes[0].className == 'x' && b7.childNodes[0].className == 'x'  ) {
+            b5.appendChild(cloneO)
+            return true  
+        }
+    }     
+
+        return false
+
+
+}
+
+
+
+
+
