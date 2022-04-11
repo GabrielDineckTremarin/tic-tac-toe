@@ -417,7 +417,7 @@ function threatChecker() {
     // O X X
     if(b5.childNodes.length > 0 && b6.childNodes.length > 0 && b4.childNodes[0] == undefined){
         if(b5.childNodes[0].className == 'x' && b6.childNodes[0].className == 'x'  ) {
-            b1.appendChild(cloneO)
+            b4.appendChild(cloneO)
             return true  
         }
     }         
