@@ -1,4 +1,4 @@
-This game is a simple project made for educational purposes during a course on JS i was taking.
+This game is a simple project made for educational purposes during a course on JS i was taking. The game isn't ready yet.
 
 Obs: the AI isn't a real AI.
 
