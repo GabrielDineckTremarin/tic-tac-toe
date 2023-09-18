@@ -3,4 +3,4 @@ This game is a simple project made for educational purposes during a course on J
 Obs: the AI isn't a real AI.
 
 
-[==> Click here to play <==](https://gabrieldt02.github.io/tic-tac-toe/)
+[==> Click here to play <==](https://gabrieldinecktremarin.github.io/tic-tac-toe/)
